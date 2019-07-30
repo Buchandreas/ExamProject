@@ -34,6 +34,17 @@ public class BrugerRepo{
         return template.queryForObject(sql, rowMapper, brugerId);
     }
 
+    public boolean isCprInDb(int cpr){
+        String sql = "SELECT count(*) FROM Bruger WHERE cpr=?";
+        int count = template.queryForObject(sql, new Object[] {cpr}, Integer.class);
+
+        if(count > 0 ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void createBruger(Bruger bruger){
         String sql = "INSERT INTO bruger (brugerId, navn, cpr, sms, email, niveau) VALUES (?, ?, ?, ?, ?, ?)";
         template.update(sql, bruger.getId(), bruger.getNavn(), bruger.getCpr(),bruger.getSms(),bruger.getEmail(), bruger.getNiveau());

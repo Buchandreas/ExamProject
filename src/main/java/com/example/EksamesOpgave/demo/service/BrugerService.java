@@ -26,6 +26,13 @@ public class BrugerService {
     public Bruger readById(int brugerId){
         return brugerRepo.readById(brugerId);
     }
+    public boolean isCprInDb(Integer cpr){
+        if(cpr == null){
+            return false;
+        } else {
+            return brugerRepo.isCprInDb(cpr);
+        }
+    }
     public void updateBruger(Bruger bruger){
         brugerRepo.updateBruger(bruger);
     }

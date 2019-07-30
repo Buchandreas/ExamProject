@@ -7,10 +7,7 @@ import com.example.EksamesOpgave.demo.service.BrugerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class homeController {
@@ -36,9 +33,20 @@ public class homeController {
     public String goFront(){ return "redirect:/frontPage"; }
 
     @GetMapping("/login")
-    public String login(){ return "login"; }
+    public String login(){
+        return "login";
+    }
+
+
     @PostMapping("/login")
-    public String goLogin(){ return "redirect:/login"; }
+    public String authenticate(Integer cpr){
+        if (brugerService.isCprInDb(cpr)){
+            return "redirect:/actionPage";
+        } else {
+            return "redirect:/login";
+        }
+
+    }
 
     @GetMapping("/actionPage")
     public String actionPage(){ return "actionPage"; }
