@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class homeController {
@@ -24,13 +25,6 @@ public class homeController {
     public String goFrontPage(){
         return "redirect:/frontPage";
     }
-
-    @GetMapping("/frontPage")
-    public String getFrontPage(){
-        return "frontPage";
-    }
-    @PostMapping("/frontPage")
-    public String goFront(){ return "redirect:/frontPage"; }
 
     @GetMapping("/login")
     public String login(){
@@ -64,9 +58,10 @@ public class homeController {
         return "create";
     }
     @PostMapping("/create")
-    public String createBruger(@ModelAttribute Bruger bruger){
+    public String createBruger(@ModelAttribute Bruger bruger, RedirectAttributes ra){
         brugerService.createBruger(bruger);
-        return "redirect:/brugerdata";
+        ra.addAttribute("msg", "User was created!");
+        return "redirect:/";
     }
 
     @GetMapping("/website")
