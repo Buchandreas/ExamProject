@@ -1,3 +1,6 @@
+//Dele skrevet af Andreas Buch
+//Specifikt dem hvor der er længere kommentarer
+
 package com.example.EksamesOpgave.demo.service;
 
 import com.example.EksamesOpgave.demo.model.Bruger;
@@ -26,6 +29,10 @@ public class BrugerService {
     public Bruger readById(int brugerId){
         return brugerRepo.readById(brugerId);
     }
+
+    //boolean på Integer wrapper klasse. Hvis cpr er null returnerer vi false,
+    // ellers tjekker vi efter i db.
+
     public boolean isCprInDb(Integer cpr){
         if(cpr == null){
             return false;

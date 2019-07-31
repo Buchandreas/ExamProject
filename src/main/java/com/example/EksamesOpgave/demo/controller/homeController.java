@@ -1,6 +1,6 @@
-/*
-Lavet a Leopold
- */
+//Dele skrevet af Andreas Buch
+//Specifikt dem hvor der er længere kommentarer
+
 package com.example.EksamesOpgave.demo.controller;
 import com.example.EksamesOpgave.demo.model.Bruger;
 import com.example.EksamesOpgave.demo.service.BrugerService;
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -17,6 +18,7 @@ public class homeController {
     BrugerService brugerService;
 
     //route - vi bruger view model til at gå til og fra browser.
+
     @GetMapping("")
     public String frontPage(){
         return "frontPage";
@@ -31,6 +33,8 @@ public class homeController {
         return "login";
     }
 
+    //PostMapping til login. Bruger metode authenticate på cpr, og hvis den
+    // er i databasen sendes vi videre til /actionPage
 
     @PostMapping("/login")
     public String authenticate(Integer cpr){
@@ -57,6 +61,9 @@ public class homeController {
     public String create(){
         return "create";
     }
+
+    //PostMapping til kreation af ny bruger i DB, redirecter til "/" med success besked.
+
     @PostMapping("/create")
     public String createBruger(@ModelAttribute Bruger bruger, RedirectAttributes ra){
         brugerService.createBruger(bruger);

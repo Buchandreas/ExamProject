@@ -1,6 +1,5 @@
-/*
-Lavet af Leopold.
- */
+//Dele skrevet af Andreas Buch
+//Specifikt dem hvor der er længere kommentarer
 
 package com.example.EksamesOpgave.demo.repository;
 
@@ -33,6 +32,10 @@ public class BrugerRepo{
         RowMapper<Bruger> rowMapper = new BeanPropertyRowMapper<>(Bruger.class);
         return template.queryForObject(sql, rowMapper, brugerId);
     }
+
+    // tester cpr imod databasen, hvis count variablen er > 0, vil det sige vores indtastede
+    // cpr befinder sig i databasen en eller flere gange. Ellers returneres false, og vi refresher siden tilbage i
+    // homecontrolleren, så en ny cpr kan indtastes.
 
     public boolean isCprInDb(int cpr){
         String sql = "SELECT count(*) FROM Bruger WHERE cpr=?";
