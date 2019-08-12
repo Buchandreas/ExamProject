@@ -23,8 +23,6 @@ public class homeController {
     @Autowired
     BorrowListService borrowListService;
 
-    @Autowired
-    BrugerRepo brugerRepo;
 
     //route - vi bruger view model til at gå til og fra browser.
 
@@ -45,16 +43,6 @@ public class homeController {
     //PostMapping til login. Bruger metode authenticate på cpr, og hvis den
     // er i databasen sendes vi videre til /actionPage
 
-    @PostMapping("/login")
-    public String authenticate(Integer cpr, RedirectAttributes ra){
-        if (brugerService.isCprInDb(cpr)){
-            ra.addAttribute("msg","Logged in as " + brugerRepo.currentUserName(cpr));
-            return "redirect:/actionPage";
-        } else {
-            return "redirect:/login";
-        }
-
-    }
 
     @GetMapping("/actionPage")
     public String actionPage(){
