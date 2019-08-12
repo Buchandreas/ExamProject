@@ -48,6 +48,16 @@ public class BrugerRepo{
         }
     }
 
+    public String currentUserName(int cpr){
+        String sql = "SELECT navn FROM Bruger WHERE cpr=?";
+        return template.queryForObject(sql, new Object[] {cpr}, String.class);
+    }
+
+    public String loginInformation(int cpr){
+        String sql = "SELECT * FROM Bruger WHERE cpr=?";
+        return template.queryForObject(sql, new Object[] {cpr}, String.class);
+    }
+
     public void createBruger(Bruger bruger){
         String sql = "INSERT INTO bruger (brugerId, navn, cpr, sms, email, niveau) VALUES (?, ?, ?, ?, ?, ?)";
         template.update(sql, bruger.getId(), bruger.getNavn(), bruger.getCpr(),bruger.getSms(),bruger.getEmail(), bruger.getNiveau());

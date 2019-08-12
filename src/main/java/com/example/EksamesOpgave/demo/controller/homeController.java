@@ -2,7 +2,10 @@
 //Specifikt dem hvor der er længere kommentarer
 
 package com.example.EksamesOpgave.demo.controller;
+
 import com.example.EksamesOpgave.demo.model.Bruger;
+import com.example.EksamesOpgave.demo.repository.BrugerRepo;
+import com.example.EksamesOpgave.demo.service.BorrowListService;
 import com.example.EksamesOpgave.demo.service.BrugerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,12 @@ public class homeController {
 
     @Autowired
     BrugerService brugerService;
+
+    @Autowired
+    BorrowListService borrowListService;
+
+    @Autowired
+    BrugerRepo brugerRepo;
 
     //route - vi bruger view model til at gå til og fra browser.
 
@@ -37,8 +46,9 @@ public class homeController {
     // er i databasen sendes vi videre til /actionPage
 
     @PostMapping("/login")
-    public String authenticate(Integer cpr){
+    public String authenticate(Integer cpr, RedirectAttributes ra){
         if (brugerService.isCprInDb(cpr)){
+            ra.addAttribute("msg","Logged in as " + brugerRepo.currentUserName(cpr));
             return "redirect:/actionPage";
         } else {
             return "redirect:/login";
@@ -47,9 +57,14 @@ public class homeController {
     }
 
     @GetMapping("/actionPage")
-    public String actionPage(){ return "actionPage"; }
+    public String actionPage(){
+        return "actionPage";
+    }
+
     @PostMapping("/actionPage")
-    public String goActionPage(){ return "redirect:/actionPage"; }
+    public String goActionPage(){
+        return "redirect:/borrow";
+    }
 
     @GetMapping("/brugerdata")
     public String brugerdata(Model model){
@@ -80,15 +95,22 @@ public class homeController {
         return "redirect:/website";
     }
 
+
     @GetMapping("/borrow")
     public String borrow(){
         return "borrow";
     }
-    @PostMapping("/borrow")
-    public String goBorrow(){
-        return "redirect:/borrow";
-    }
 
+    //metode til at route baseret på boolean resultat
+
+    @PostMapping("/borrow")
+    public String authenticateBorrow(Integer borrowListID) {
+        if (borrowListService.isItemInDb(borrowListID)) {
+            return "redirect:/";
+        } else {
+            return "redirect:/borrow";
+        }
+    }
 
     @GetMapping("/opdater/{brugerId}")
     public String opdaterBruger(@PathVariable("brugerId") int brugerId, Model model){
@@ -100,7 +122,7 @@ public class homeController {
     @PostMapping("/opdater")
     public String opdateringfærdig(@ModelAttribute Bruger bruger){
         brugerService.updateBruger(bruger);
-        return "redirect:/createBruger"+bruger.getId();
+        return "redirect:/createBruger" + bruger.getId();
     }
 
     @GetMapping("/delete/{brugerId}")

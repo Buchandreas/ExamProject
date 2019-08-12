@@ -29,6 +29,17 @@ public class BorrowListRepo {
         template.queryForObject(sql, rowMapper, bruger);
     }
 
+    public boolean isItemInDb(int borrowListID){
+        String sql = "SELECT count(*) FROM BorrowList WHERE itemID=?";
+        int count = template.queryForObject(sql, new Object[] {borrowListID}, Integer.class);
+
+        if(count > 0 ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void createBorrowList(BorrowList borrowList){
         String sql = "insert into BorrowList (tidspunkt, Afleverer) values(?, ?)";
         RowMapper<BorrowList> rowMapper = new BeanPropertyRowMapper<>(BorrowList.class);

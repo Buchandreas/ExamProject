@@ -10,23 +10,38 @@ import java.util.List;
 @Service
 public class BorrowListService {
     /**
-     *  Injection of dependencies by our repository
+     * Injection of dependencies by our repository
      */
     @Autowired
     BorrowListRepo borrowlistRepo;
-    public List<BorrowList> fetchAllBorrowLists(){
+
+    public List<BorrowList> fetchAllBorrowLists() {
         return borrowlistRepo.fetchAllBorrowLists();
     }
-    public void deleteById(int borrowListId){
+
+    public void deleteById(int borrowListId) {
         borrowlistRepo.deleteById(borrowListId);
     }
-    public void createBorrowList(BorrowList borrowList){
+
+    public void createBorrowList(BorrowList borrowList) {
         borrowlistRepo.createBorrowList(borrowList);
     }
-    public void updateBorrowList(BorrowList borrowList){
+
+    public void updateBorrowList(BorrowList borrowList) {
         borrowlistRepo.updateBorrowList(borrowList);
     }
-    public void readByListId(int bruger){
-        borrowlistRepo.readByListId( bruger);
+
+    public void readByListId(int bruger) {
+        borrowlistRepo.readByListId(bruger);
+    }
+
+    public boolean isItemInDb(Integer borrowListID) {
+        if (borrowListID == null) {
+            return false;
+        } else {
+            return borrowlistRepo.isItemInDb(borrowListID);
+        }
     }
 }
+
+

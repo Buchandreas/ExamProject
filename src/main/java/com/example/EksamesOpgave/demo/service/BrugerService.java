@@ -40,8 +40,8 @@ public class BrugerService {
             return brugerRepo.isCprInDb(cpr);
         }
     }
+
     public void updateBruger(Bruger bruger){
         brugerRepo.updateBruger(bruger);
     }
-
 }

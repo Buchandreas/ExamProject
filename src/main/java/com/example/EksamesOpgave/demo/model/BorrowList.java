@@ -5,11 +5,6 @@ import javax.persistence.Id;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-/**
- * Class is based on the data structure in our database.
- *
- */
-
 @Entity
 public class BorrowList {
     @Id
