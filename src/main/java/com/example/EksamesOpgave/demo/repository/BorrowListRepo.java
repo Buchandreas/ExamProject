@@ -46,10 +46,15 @@ public class BorrowListRepo {
         template.update(sql, rowMapper, rowMapper, borrowList.getTidspunkt(), borrowList.getAfleverer());
     }
 
-    public void updateBorrowList(BorrowList borrowList){
-        String sql ="Update BorrowList SET tidspunt=?, Afleverer=?";
-        template.update(sql, borrowList.getAfleverer(), borrowList.getTidspunkt());
+    public void updateBorrowList(Integer cpr){
+
     }
+
+    /*
+    public void updateBorrowList(BorrowList borrowList){
+        String sql ="Update BorrowList SET bruger=?, tidspunkt=?, afleverer=?";
+        template.update(sql, borrowList.getAfleverer(), borrowList.getTidspunkt());
+    } */
 
     public void deleteById(int borrowListId){
         String sql = " Delete from BorrowList WHERE borrowListId=?";

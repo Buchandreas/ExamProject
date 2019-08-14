@@ -4,7 +4,6 @@
 package com.example.EksamesOpgave.demo.controller;
 
 import com.example.EksamesOpgave.demo.model.Bruger;
-import com.example.EksamesOpgave.demo.repository.BrugerRepo;
 import com.example.EksamesOpgave.demo.service.BorrowListService;
 import com.example.EksamesOpgave.demo.service.BrugerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class homeController {
@@ -40,13 +41,13 @@ public class homeController {
         return "login";
     }
 
-    //PostMapping til login. Bruger metode authenticate på cpr, og hvis den
-    // er i databasen sendes vi videre til /actionPage
-
-
     @GetMapping("/actionPage")
-    public String actionPage(){
-        return "actionPage";
+    public String actionPage(HttpSession session){
+        if(AccountController.isLoggedIn(session)) {
+            return "actionPage";
+        }
+
+        return "redirect:/login";
     }
 
     @PostMapping("/actionPage")
@@ -66,7 +67,6 @@ public class homeController {
     }
 
     //PostMapping til kreation af ny bruger i DB, redirecter til "/" med success besked.
-
     @PostMapping("/create")
     public String createBruger(@ModelAttribute Bruger bruger, RedirectAttributes ra){
         brugerService.createBruger(bruger);
@@ -85,14 +85,18 @@ public class homeController {
 
 
     @GetMapping("/borrow")
-    public String borrow(){
-        return "borrow";
+    public String borrow(HttpSession session){
+        if(AccountController.isLoggedIn(session)) {
+            return "borrow";
+        }
+
+        return "redirect:/login";
     }
 
     //metode til at route baseret på boolean resultat
 
     @PostMapping("/borrow")
-    public String authenticateBorrow(Integer borrowListID) {
+    public String authenticateBorrow(Integer borrowListID, Integer cpr) {
         if (borrowListService.isItemInDb(borrowListID)) {
             return "redirect:/";
         } else {

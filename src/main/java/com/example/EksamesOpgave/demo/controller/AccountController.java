@@ -20,6 +20,9 @@ public class AccountController {
     @Autowired
     BrugerRepo brugerRepo;
 
+    //PostMapping til login. Bruger metode authenticate på cpr, og hvis den
+    // er i databasen sendes vi videre til /actionPage
+
     @PostMapping("/login")
     public String authenticate(Integer cpr, HttpSession session, RedirectAttributes ra){
         if (brugerService.isCprInDb(cpr)){
@@ -29,7 +32,6 @@ public class AccountController {
         } else {
             return "redirect:/login";
         }
-
     }
 
     @RequestMapping(value = "logout", method = RequestMethod.GET)
@@ -38,4 +40,10 @@ public class AccountController {
         return "redirect:/login";
     }
 
+    public static Boolean isLoggedIn(HttpSession session){
+        if(session.getAttribute("cpr") == null){
+            return false;
+        }
+        return true;
+    }
 }
