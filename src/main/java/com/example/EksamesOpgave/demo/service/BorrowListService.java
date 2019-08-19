@@ -27,8 +27,7 @@ public class BorrowListService {
         borrowlistRepo.createBorrowList(borrowList);
     }
 
-    public void updateBorrowList(BorrowList borrowList) {
-        borrowlistRepo.updateBorrowList(borrowList);
+    public void updateBorrowList(Integer borrowList, Integer name) { borrowlistRepo.updateBorrowList(borrowList, name);
     }
 
     public void readByListId(int bruger) {

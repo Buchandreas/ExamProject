@@ -24,6 +24,8 @@ public class homeController {
     @Autowired
     BorrowListService borrowListService;
 
+    @Autowired
+    AccountController accountController;
 
     //route - vi bruger view model til at gå til og fra browser.
 
@@ -96,9 +98,13 @@ public class homeController {
     //metode til at route baseret på boolean resultat
 
     @PostMapping("/borrow")
-    public String authenticateBorrow(Integer borrowListID, Integer cpr) {
+    public String authenticateBorrow(Integer borrowListID, Integer name) {
         if (borrowListService.isItemInDb(borrowListID)) {
+            accountController.getName(name);
+            borrowListService.updateBorrowList(borrowListID, name);
             return "redirect:/";
+
+            //needs to add information to db
         } else {
             return "redirect:/borrow";
         }

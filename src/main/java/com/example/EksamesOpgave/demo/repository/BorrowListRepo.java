@@ -41,13 +41,14 @@ public class BorrowListRepo {
     }
 
     public void createBorrowList(BorrowList borrowList){
-        String sql = "insert into BorrowList (tidspunkt, Afleverer) values(?, ?)";
+        String sql = "insert into BorrowList (tidspunkt, afleverer) values(?, ?)";
         RowMapper<BorrowList> rowMapper = new BeanPropertyRowMapper<>(BorrowList.class);
         template.update(sql, rowMapper, rowMapper, borrowList.getTidspunkt(), borrowList.getAfleverer());
     }
 
-    public void updateBorrowList(Integer cpr){
-
+    public void updateBorrowList(Integer borrowListID, Integer name){
+        String sql = "Update BorrowList SET bruger=name WHERE borrowListID=?";
+        template.update(sql, borrowListID, name);
     }
 
     /*
